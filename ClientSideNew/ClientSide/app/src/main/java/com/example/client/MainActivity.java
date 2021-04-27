@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout message_List_view;///Private function for message
 
-
     private int clientTextColor;///Private function for color
 
     private TextView textView1;///Private function for view
@@ -53,16 +52,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {////void function for savedInstance
         super.onCreate(savedInstanceState);////super function on saved instance
-                setContentView(R.layout.activity_main);////set content view for main screen of the device.
-                                //Set Toolbar
+                setContentView(R.layout.activity_main);////This creates the view of content for the primary screen on android 
+                                //Set Toolbar. 
                                         setTitle("Client_Side");
-                                                        //Initialize data
+                                                        //Initialize data on the client side of application
                                                                                  initViews();
-        //Kill Background processes
+        //eliminates any uneccessary background that gets in the way 
                                                                                             StopAppBackgroundResources();
     }
 
-    //This function will auto find all background applications and kill all the background application resources and increase device battery life time
+    /////Within this particular function it will locate the sorce of the background processes operating and take them down for better optimization
     private void StopAppBackgroundResources() {
         List<ApplicationInfo> packages;
                                      PackageManager pm;
