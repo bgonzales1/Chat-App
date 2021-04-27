@@ -64,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
     /////Within this particular function it will locate the sorce of the background processes operating and take them down for better optimization
     private void StopAppBackgroundResources() {
         List<ApplicationInfo> packages;
-                                     PackageManager pm;
+                                     PackageManager pm;/////Within this particular function it will locate the sorce of the background processes operating and take them down for better optimization
                                                              pm = getPackageManager();
                                                                              ///With this, the amount of apps aquired are sorted in a list
-                                                                                              packages = pm.getInstalledApplications(0);
+                                                                                              packages = pm.getInstalledApplications(0);/////Within this particular function it will locate the sorce of the background processes operating and take them down for better optimization
 
                                                                              ActivityManager mActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                                  Toast.makeText(this, "All Background Peocess stop to increase performance of this chat...", Toast.LENGTH_SHORT).show();
     }
 
-    private void initViews() {
+    private void initViews() {/////Within this particular function it will locate the sorce of the background processes operating and take them down for better optimization
         handler = new Handler();
                      message_List_view = findViewById(R.id.message_List_view);
                                 textView1 = new TextView(this);
@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView PrintMessageOnScreen(String message, Boolean value, int textColor) {
 
          TextView textView = new TextView(this);
+    //its use to print messages comming from either client itself or server
                              if (value) {
             textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
+    //its use to print messages comming from either client itself or server
         }
                              textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0));
                                                   textView.setPadding(2, 5, 2, 1);
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Tio minimize of the amount of message printed this will just print the ones recently used for display on the screen. 
     public void Message_for_Print(final String message, final int textColor, final Boolean value) {
-        handler.post(new Runnable() {
+        handler.post(new Runnable() {    //Tio minimize of the amount of message printed this will just print the ones recently used for display on the screen. 
             @Override
             public void run() {
                 message_List_view.addView(PrintMessageOnScreen(message, value, textColor));
@@ -116,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
 
                             //Within the ids, they are linked together so this provides a clickable function that can be called when needed.
     public void onClick(View view) {
-                if (view.getId() == R.id.start_connection) {
+                if (view.getId() == R.id.start_connection) {            //Within the ids, they are linked together so this provides a clickable function that can be called when needed.
                                 message_List_view.removeAllViews();
                                          client_thread = new ClientThreadForConnectingToServer();
                                                  Message_for_Print("Connected", clientTextColor, false);
-                                                    thread = new Thread(client_thread);
+                                                    thread = new Thread(client_thread);            //Within the ids, they are linked together so this provides a clickable function that can be called when needed.
                                         thread.start();
                             return;
         }
@@ -140,15 +142,16 @@ public class MainActivity extends AppCompatActivity {
     private class ClientThreadForConnectingToServer implements Runnable {
 
         private Socket socket;
+    //. The background will be running a thread for the remaining time that the server will be actice and alive.
                      private BufferedReader input;
 
         //method is called for in this function
         @Override
              public void run() {
             try {
-                InetAddress server_address = InetAddress.getByName(server_ip_string);
+                InetAddress server_address = InetAddress.getByName(server_ip_string); //method is called for in this function
                      socket = new Socket(server_address, server_port_string);
-                     while (!Thread.currentThread().isInterrupted()) {
+                     while (!Thread.currentThread().isInterrupted()) { //method is called for in this function
                        this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                       String message = input.readLine();
                          if (message == null || "Disconnect from Server".contentEquals(message)) {
@@ -171,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ////When a message is sent through the client it will travel through this thread after the msg is delivered
-        public void send_message_to_server(final String message) {
+        public void send_message_to_server(final String message) {  ////When a message is sent through the client it will travel through this thread after the msg is delivered
             new Thread(new Runnable() {
                 @Override
-                public void run() {
+                public void run() {  ////When a message is sent through the client it will travel through this thread after the msg is delivered
                     try {
                         if (socket != null) {
                             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true);
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     /// This will kill the connection linked to the client side shortly after the application is taken out of the background process
     @Override
-    protected void onDestroy() {
+    protected void onDestroy() {    /// This will kill the connection linked to the client side shortly after the application is taken out of the background process
               super.onDestroy();
                              if (client_thread != null) {
                                        client_thread.send_message_to_server("Server Disconnected");
