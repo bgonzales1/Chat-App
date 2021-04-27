@@ -28,54 +28,61 @@ import java.nio.ByteOrder;
 
 public class MainActivity extends AppCompatActivity  {
 
-    private ServerSocket serverSocket;
-    private Socket socket_for_client;
-    private Handler handler;
-    private EditText editText_message;
-    private TextView ipTextviewID;
-    private Thread thread_for_server = null;
-    private int textColor;
-    private LinearLayout msgScrollViewList;
-    public static final int server_port = 8080;
+    private ServerSocket serverSocket;//// This is a private function for the socket server
+    
+            private Socket socket_for_client;//// This is a private function for the socket client
+    
+            private Handler handler;//// This is a private function for the handler
+    
+            private EditText editText_message;//// This is a private function for the message
+            private TextView ipTextviewID;//// This is a private function for the textview
+    
+            private Thread thread_for_server = null;//// This is a private function for the thread
+    
+         private int textColor;//// This is a private function for the textcolor
+    
+        private LinearLayout msgScrollViewList;//// This is a private function for the viewlist
+    
+    public static final int server_port = 8080;//// This is a private function for the server port
 
-    //this function will help to get ip address from mobile operating system..
+    //. With the help of this function, the ip address will be retrieved from OS.
     private String getLocalIpAddress() throws UnknownHostException {
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        assert wifiManager != null;
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        int ipInt = wifiInfo.getIpAddress();
-        return InetAddress.getByAddress(
+            WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+                    assert wifiManager != null;
+                             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                             int ipInt = wifiInfo.getIpAddress();
+                         return InetAddress.getByAddress(
                 ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(ipInt).array())
                 .getHostAddress();
     }
 
-    //server side need to enable before client side to start connection with the same server id on client side...
+    /// For this function to work the server side must be connected for the client side to initiate connection.
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {    /// For this function to work the server side must be connected for the client side to initiate connection.
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setTitle("Server_Side");
-        initViews();
-        String SERVER_IP = "";
-        try {
-            SERVER_IP = getLocalIpAddress();
-            ipTextviewID.setText("Server IP: "+SERVER_IP);
-        } catch (UnknownHostException e) {
+            setContentView(R.layout.activity_main);
+                setTitle("Server_Side");
+                    initViews();
+                        String SERVER_IP = "";
+                            try {
+                             SERVER_IP = getLocalIpAddress();
+                         ipTextviewID.setText("Server IP: "+SERVER_IP);
+                     } catch (UnknownHostException e) {
             e.printStackTrace();
         }
         Log.e("TAG", "onCreateonCreateonCreateonCreate: "+SERVER_IP );
     }
 
-    //Initialization of required data here...
+    //// In this section the process of finding the message being sent will link connection
     private void initViews() {
-        handler = new Handler();
-        msgScrollViewList = findViewById(R.id.msgScrollViewList);
-        editText_message = findViewById(R.id.editText_message);
-        ipTextviewID = findViewById(R.id.ipTextviewID);
-        textColor = ContextCompat.getColor(this, R.color.colorPrimary);
+        handler = new Handler();//// In this section the process of finding the message being sent will link connection
+                msgScrollViewList = findViewById(R.id.msgScrollViewList);
+                            editText_message = findViewById(R.id.editText_message);//// In this section the process of finding the message being sent will link connection
+                                ipTextviewID = findViewById(R.id.ipTextviewID);
+                textColor = ContextCompat.getColor(this, R.color.colorPrimary);
     }
 
-    //funtion for minimize the code print again and again for printing over the screen...
+    ///This part is to help minimize the code and help print the following messages on the screen so that they can fit properly.
     private void Message_for_Print(final String message, final int textColor, final Boolean value) {
         handler.post(new Runnable() {
             @Override
@@ -85,28 +92,30 @@ public class MainActivity extends AppCompatActivity  {
         });
     }
 
-    //this function print text in the chat view...
+    //The following is for the printing of the text that a user wh=ants to send.
     public TextView PrintMessageOnScreen(String message, int textColor, Boolean value) {
 
         TextView textView = new TextView(this);
+    //The following is for the printing of the text that a user wh=ants to send.
         if (value) {
             textView.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_END);
         }
         textView.setTextColor(textColor);
+    //The following is for the printing of the text that a user wh=ants to send.
         textView.setTextSize(18);
         textView.setText(""+message);
         textView.setPadding(2, 5, 2, 1);
         return textView;
     }
 
-    //Message will be send using this thread to Client...
-    private void send_message_to_client(final String message) {
+    ////The messages will be run under a thread to be delivered to the client using the following function below.
+    private void send_message_to_client(final String message) {   ////The messages will be run under a thread to be delivered to the client using the following function below.
         try {
             if (socket_for_client != null) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        PrintWriter printWriter = null;
+                        PrintWriter printWriter = null;   ////The messages will be run under a thread to be delivered to the client using the following function below.
                         try {
                             printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket_for_client.getOutputStream())), true);
                         } catch (IOException e) {
@@ -121,9 +130,9 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    //this thread is used to start connection between server and client for communication between them...
+    ///// When the previous functions are enables this will allow both the client and server to stablize a successful connection for the user
     private class ServerThread implements Runnable {
-        public void run() {
+        public void run() {//The following thread will give back or return the value that corresponds to the input BufferReader in order to transfer data to the client for such user
             Socket socket;
             try {
                 serverSocket = new ServerSocket(server_port);
@@ -144,7 +153,7 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    //this thread retunr the value to input BufferReader for communication with client...
+    //The following thread will give back or return the value that corresponds to the input BufferReader in order to transfer data to the client for such user
     private class Thread_for_connection implements Runnable {
 
         private Socket Socket_socket;
@@ -159,8 +168,8 @@ public class MainActivity extends AppCompatActivity  {
             }
         }
 
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
+        public void run() {//The following thread will give back or return the value that corresponds to the input BufferReader in order to transfer data to the client for such user
+            while (!Thread.currentThread().isInterrupted()) {//The following thread will give back or return the value that corresponds to the input BufferReader in order to transfer data to the client for such user
                 try {
                     String message = input.readLine();
                     if (message == null || "Disconnect".contentEquals(message)) {
@@ -178,14 +187,14 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    //Function call when button's will be pressed...
-    public void onClick(View view) {
-        if (view.getId() == R.id.start_server) {
+    //This fucntion below helps command the performance of the buttons when being pressed so they can be called.
+    public void onClick(View view) {  //This fucntion below helps command the performance of the buttons when being pressed so they can be called.
+        if (view.getId() == R.id.start_server) {  //This fucntion below helps command the performance of the buttons when being pressed so they can be called.
             msgScrollViewList.removeAllViews();
             Message_for_Print("Server Started", Color.GREEN, false);
             thread_for_server = new Thread(new ServerThread());
             thread_for_server.start();
-            view.setVisibility(View.GONE);
+            view.setVisibility(View.GONE);//This fucntion below helps command the performance of the buttons when being pressed so they can be called.
             return;
         }
         if (view.getId() == R.id.send_data_to_client) {
@@ -199,10 +208,10 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    //destroy all connection when app will closed...
+    //In the end of the whole application when the entire program is shut off by the user this will exit and kill the chat app for the user.
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onDestroy() { //In the end of the whole application when the entire program is shut off by the user this will exit and kill the chat app for the user.
+        super.onDestroy(); //In the end of the whole application when the entire program is shut off by the user this will exit and kill the chat app for the user.
         if (thread_for_server != null) {
             send_message_to_client("Server Disconnected");
             thread_for_server.interrupt();
