@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         List<ApplicationInfo> packages;
                                      PackageManager pm;
                                                              pm = getPackageManager();
-                                                                             //get a list of installed apps.
+                                                                             ///With this, the amount of apps aquired are sorted in a list
                                                                                               packages = pm.getInstalledApplications(0);
 
                                                                              ActivityManager mActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         return textView;
     }
 
-    //for minimize the use of print message every where...in a single function,just need to call this when required
+    //Tio minimize of the amount of message printed this will just print the ones recently used for display on the screen. 
     public void Message_for_Print(final String message, final int textColor, final Boolean value) {
         handler.post(new Runnable() {
             @Override
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-                            //onclick button this function will be called due to there ids link with this method
+                            //Within the ids, they are linked together so this provides a clickable function that can be called when needed.
     public void onClick(View view) {
                 if (view.getId() == R.id.start_connection) {
                                 message_List_view.removeAllViews();
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //client side message will be snd through this thread,Message need to be initialize final here
+        ////When a message is sent through the client it will travel through this thread after the msg is delivered
         public void send_message_to_server(final String message) {
             new Thread(new Runnable() {
                 @Override
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // it will destroy the client connection after app remove from background
+    /// This will kill the connection linked to the client side shortly after the application is taken out of the background process
     @Override
     protected void onDestroy() {
               super.onDestroy();
