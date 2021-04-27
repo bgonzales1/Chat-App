@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Client-Side</string>
+    <string name="device_optimization">Device Optimization</string>
+    <string name="chat_app">Chat App</string>
+    <string name="side">Side</string>
+    <string name="client">Client</string>
+</resources>
