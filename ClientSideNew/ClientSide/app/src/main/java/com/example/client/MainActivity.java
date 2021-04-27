@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Thread that will run ib background untill server is connected ..Only if the server is start from server side
+    //. The background will be running a thread for the remaining time that the server will be actice and alive.
     private class ClientThreadForConnectingToServer implements Runnable {
 
         private Socket socket;
