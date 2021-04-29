@@ -1,30 +1,34 @@
 package com.example.server;
 
-import android.graphics.Color;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Bundle;
-import android.os.Handler;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetAddress;
+import android.graphics.Color;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Bundle;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.io.BufferedReader;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import android.os.Handler;
+
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import java.net.InetAddress;
+
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -191,16 +195,16 @@ public class MainActivity extends AppCompatActivity  {
     public void onClick(View view) {  //This fucntion below helps command the performance of the buttons when being pressed so they can be called.
         if (view.getId() == R.id.start_server) {  //This fucntion below helps command the performance of the buttons when being pressed so they can be called.
             msgScrollViewList.removeAllViews();
-            Message_for_Print("Server Started", Color.GREEN, false);
-            thread_for_server = new Thread(new ServerThread());
-            thread_for_server.start();
-            view.setVisibility(View.GONE);//This fucntion below helps command the performance of the buttons when being pressed so they can be called.
-            return;
+                Message_for_Print("Server Started", Color.GREEN, false);
+                    thread_for_server = new Thread(new ServerThread());
+                        thread_for_server.start();
+                                view.setVisibility(View.GONE);//This fucntion below helps command the performance of the buttons when being pressed so they can be called.
+                return;
         }
         if (view.getId() == R.id.send_data_to_client) {
             String msg = editText_message.getText().toString().trim();
-            Message_for_Print("Server: " + msg, R.color.colorPrimaryDark, false);
-            if (msg.length() > 0) {
+                            Message_for_Print("Server: " + msg, R.color.colorPrimaryDark, false);
+                                if (msg.length() > 0) {
                 send_message_to_client(msg);
             }
             editText_message.setText("");
